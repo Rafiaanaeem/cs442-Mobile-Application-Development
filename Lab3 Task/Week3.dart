@@ -1,6 +1,7 @@
 /// CS442 Lab 3 — Library Desk Assistant
 /// Name: Rafia Naeem
 /// Roll No: 04072313032
+import 'dart:async';
 
 final List<Map<String, dynamic>> books = [
   {
@@ -124,16 +125,41 @@ Map<String, int> buildStock() {
   };
 }
 
+Map<String, List<String>> groupTitlesByTag() {
+  final Map<String, List<String>> grouped = {};
+
+  for (final book in books) {
+    final title = book['title'] as String;
+    final tags = book['tags'] as List<String>;
+
+    for (final tag in tags) {
+      grouped.putIfAbsent(tag, () => []);
+      grouped[tag]!.add(title);
+    }
+  }
+
+  return grouped;
+}
+
+List<T> filterBy<T>(List<T> items, bool Function(T) test) {
+  return items.where(test).toList();
+}
+
 void part3() {
   print('--- Part 3 ---');
 
   final titles = books.map((b) => b['title'] as String).toList();
   print('Titles: $titles');
 
-  final available = books
-      .where((b) => (b['copies'] as int) >= 1)
-      .map((b) => b['title'] as String)
+  final availableBooks = filterBy<Map<String, dynamic>>(
+    books,
+    (book) => (book['copies'] as int) >= 1,
+  );
+
+  final available = availableBooks
+      .map((book) => book['title'] as String)
       .toList();
+
   print('Available: $available');
 
   final totalCopies = books.fold<int>(
@@ -158,6 +184,8 @@ void part3() {
       print('Out of stock: $title');
     }
   });
+
+  print('Titles by tag: ${groupTitlesByTag()}');
 
   print('Copies of Unknown: ${stock['Unknown'] ?? 0}');
 
@@ -294,6 +322,17 @@ Future<void> part6() async {
   }
 }
 
+Future<void> bonusFutureWait() async {
+  final stopwatch = Stopwatch()..start();
+
+  final results = await Future.wait([fetchBookOfTheDay(), fetchBookOfTheDay()]);
+
+  stopwatch.stop();
+
+  print('Future.wait results: $results');
+  print('Concurrent time: ${stopwatch.elapsedMilliseconds} ms');
+}
+
 Future<void> main() async {
   part1();
   part2();
@@ -301,6 +340,9 @@ Future<void> main() async {
   part4();
   part5();
   await part6();
+
+  print('--- Bonus B3 ---');
+  await bonusFutureWait();
 }
 
 // Reflection 1: fold can use an initial value and works on an empty collection;
