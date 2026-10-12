@@ -28,7 +28,7 @@ final int renewLimit = 1 + t % 3;
 final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
 
-// base class for step 1, 2, 3, 9
+//  class for step 1, 2, 3, 9
 abstract class LibraryItem {
   final String title;
   final int year;
@@ -47,7 +47,6 @@ abstract class LibraryItem {
     return fee > feeCap ? feeCap : fee;
   }
 }
-
 // for step 1, 2, 3, 4, 5.  class Book
 class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
