@@ -392,10 +392,9 @@ void step8() {
   print('Step 8: equal copies? ${f1 == Fine(f1.amount)}');
   print('Step 8: set size = ${{f1, Fine(f1.amount), f2}.length}');
 
-  // Equal objects must have equal hash codes for correct Set and
-  // Map behaviour when equality is overridden.
+  // Equal objects must have equal hash codes. Without the matching
+  // hashCode, a Set may treat equal Fine values as separate entries.
 }
-
 // STEP 9: static and const
 void step9() {
   print('--- Step 9 ---');
