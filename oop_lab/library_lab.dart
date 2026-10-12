@@ -350,14 +350,12 @@ void step6() {
   print('Step 6: member type = ${type.name} (index ${type.index})');
   print('Step 6: max loans = ${type.maxLoans}');
   print(
-    'Step 6: book fee $fee -> '
-    '${type.applyDiscount(fee)} after discount',
+    'Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount',
   );
 
   // Enum values prevent invalid member categories that arbitrary
-  // strings could introduce.
+  // strings such as 'student' could introduce.
 }
-
 // STEP 7: Extension methods
 void step7() {
   print('--- Step 7 ---');
