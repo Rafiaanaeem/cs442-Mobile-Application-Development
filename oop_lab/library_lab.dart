@@ -396,6 +396,7 @@ void step8() {
   // hashCode, a Set may treat equal Fine values as separate entries.
 }
 // STEP 9: static and const
+
 void step9() {
   print('--- Step 9 ---');
 
@@ -419,8 +420,8 @@ void step9() {
     '${identical(Fine(10), Fine(10))}',
   );
 
-  // created is static, so it can be accessed through LibraryItem
-  // without creating an instance.
+  // created is static, so it belongs to the class rather than
+  // to an individual LibraryItem instance.
 }
 
 // STEP 10: Capstone
