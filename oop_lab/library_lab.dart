@@ -2,8 +2,6 @@
 // Name: Rafia Naeem   Roll no: 04072313032
 
 const String rollNo = '04072313032';
-
-// ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
 final int seed = int.parse(rollNo.substring(rollNo.length - 2));
 final int t = seed ~/ 10;
 final int u = seed % 10;
@@ -29,9 +27,8 @@ final int feeCap = 150 + 10 * t;
 final int renewLimit = 1 + t % 3;
 final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
-// ==========================================================================
 
-// STEP 1, 2, 3, 9: Base class
+// base class for step 1, 2, 3, 9
 abstract class LibraryItem {
   final String title;
   final int year;
@@ -51,7 +48,7 @@ abstract class LibraryItem {
   }
 }
 
-// STEP 1, 2, 3, 4, 5: Book
+// for step 1, 2, 3, 4, 5.  class Book
 class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
   bool _out = false;
@@ -78,7 +75,7 @@ class Book extends LibraryItem with Renewable implements Borrowable {
   }
 }
 
-// STEP 2, 3: Magazine
+// for step 2, 3 . class Magazine
 class Magazine extends LibraryItem {
   final int issue;
 
@@ -91,7 +88,7 @@ class Magazine extends LibraryItem {
   int lateFee(int days) => days * (feePerDay ~/ 2);
 }
 
-// STEP 3, 5: DVD
+// for step 3, 5. class DVD
 class Dvd extends LibraryItem with Renewable {
   final int minutes;
 
@@ -104,14 +101,14 @@ class Dvd extends LibraryItem with Renewable {
   int lateFee(int days) => days * feePerDay * 2;
 }
 
-// STEP 4: Interface contract
+// for step 4.  abstract class Interface contract
 abstract class Borrowable {
   bool get isAvailable;
   void borrow();
   void giveBack();
 }
 
-// STEP 5: Mixin
+// for step 5. class Mixin
 mixin Renewable {
   int renewals = 0;
 
@@ -140,7 +137,7 @@ Dvd mainDvd() {
   return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
 
-// STEP 6: Enhanced enum
+// for step 6. Enhanced enum
 enum MemberType {
   student(3, 50),
   faculty(10, 20),
@@ -156,7 +153,7 @@ enum MemberType {
   }
 }
 
-// STEP 7: Extensions
+// for step 7. Extensions
 extension MoneyText on int {
   String get rs => 'Rs $this';
 }
@@ -171,7 +168,7 @@ extension ShelfMath on List<LibraryItem> {
   }
 }
 
-// STEP 8: Operator overloading and equality
+// for step no 8. Operator overloading and equality
 class Fine {
   final int amount;
 
@@ -191,7 +188,7 @@ class Fine {
   String toString() => 'Fine($amount)';
 }
 
-// STEP 9: Build a shelf
+// for step 9. Build a shelf
 List<LibraryItem> buildShelf() {
   List<LibraryItem> shelf = [];
 
@@ -210,7 +207,7 @@ List<LibraryItem> buildShelf() {
   return shelf;
 }
 
-// STEP 10: Library member
+// for step no 10. Library member
 class Member {
   final String name;
   final MemberType type;
@@ -375,10 +372,8 @@ void step7() {
 // STEP 8: Operators, equality and hashCode
 void step8() {
   print('--- Step 8 ---');
-
   Fine f1 = Fine(mainBook().lateFee(daysLate));
   Fine f2 = Fine(mainMagazine().lateFee(daysLate));
-
   print('Step 8: $f1 + $f2 = ${f1 + f2}');
   print('Step 8: first bigger? ${f1 > f2}');
   print('Step 8: equal copies? ${f1 == Fine(f1.amount)}');
@@ -387,16 +382,13 @@ void step8() {
   // Equal objects must have equal hash codes. Without the matching
   // hashCode, a Set may treat equal Fine values as separate entries.
 }
-// STEP 9: static and const
 
+// STEP 9: static and const
 void step9() {
   print('--- Step 9 ---');
-
   LibraryItem.created = 0;
-
   buildShelf();
   List<LibraryItem> shelf = buildShelf();
-
   print('Step 9: items created = ${LibraryItem.created}');
   print(
     'Step 9: capped fee = '
@@ -419,11 +411,8 @@ void step9() {
 // STEP 10: Capstone
 void step10() {
   print('--- Step 10 ---');
-
   List<LibraryItem> shelf = buildShelf();
-
   Member member = Member('S$seed', MemberType.values[seed % 3]);
-
   Fine total = shelf.fold(
     Fine(0),
     (sum, item) => sum + member.feeFor(item, daysLate),
