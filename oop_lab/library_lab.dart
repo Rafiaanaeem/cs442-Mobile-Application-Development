@@ -25,6 +25,23 @@ final int renewAttempts = 2 + u;
 final int shelfSize = 3 + u % 4;
 // ===========================================================================
 
+
+class LibraryItem {
+  final String title;
+  final int year;
+
+  LibraryItem(this.title, this.year);
+}
+
+class Book extends LibraryItem {
+  final int pages;
+
+  Book(super.title, super.year, this.pages);
+}
+
+Book mainBook() {
+  return Book(titles[u], yearOf(u), 100 + 3 * seed);
+}
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -39,7 +56,19 @@ void main() {
   step10();
 }
 
-void step1() { print('--- Step 1 ---'); }
+void step1() {
+  print('--- Step 1 ---');
+
+  Book b = mainBook();
+  LibraryItem item = b;
+
+  print('Step 1: ${b.title} (${b.year}), ${b.pages} pages');
+  print('Step 1: stored as LibraryItem: ${item.title}');
+  print('Step 1: runtimeType = ${item.runtimeType}');
+
+  // item.pages is a compile-time error because item is declared
+  // as LibraryItem, which does not declare a pages field.
+}
 void step2() { print('--- Step 2 ---'); }
 void step3() { print('--- Step 3 ---'); }
 void step4() { print('--- Step 4 ---'); }
