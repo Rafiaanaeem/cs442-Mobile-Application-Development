@@ -299,7 +299,11 @@ void step4() {
   book.giveBack();
   print('Step 4: after return? ${book.isAvailable}');
 
-  List<LibraryItem> items = [book, mainMagazine(), mainDvd()];
+  List<LibraryItem> items = [
+    book,
+    mainMagazine(),
+    mainDvd(),
+  ];
 
   for (LibraryItem item in items) {
     print(
@@ -308,9 +312,9 @@ void step4() {
     );
   }
 
-  // Borrowable declares a contract but provides no method bodies.
-  // Book implements the contract explicitly; extending an abstract
-  // class with no implementations would not provide these methods.
+  // implements requires Book to provide every Borrowable member.
+  // Extending Borrowable would inherit implementations only if
+  // they existed; this contract intentionally provides none.
 }
 
 // STEP 5: Mixins
