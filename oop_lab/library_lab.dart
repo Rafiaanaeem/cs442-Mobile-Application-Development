@@ -337,10 +337,9 @@ void step5() {
   print('Step 5: renew once more? ${book.renew(renewLimit)}');
   print('Step 5: dvd can renew too? ${mainDvd().renew(1)}');
 
-  // Renewable shares renewal behaviour between Book and Dvd.
-  // Magazine does not need renewal functionality.
+  // Renewable is a mixin because Book and Dvd share this behaviour
+  // without requiring every LibraryItem to support renewals.
 }
-
 // STEP 6: Enhanced enums
 void step6() {
   print('--- Step 6 ---');
