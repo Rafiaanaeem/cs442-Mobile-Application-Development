@@ -299,11 +299,7 @@ void step4() {
   book.giveBack();
   print('Step 4: after return? ${book.isAvailable}');
 
-  List<LibraryItem> items = [
-    book,
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> items = [book, mainMagazine(), mainDvd()];
 
   for (LibraryItem item in items) {
     print(
@@ -340,6 +336,7 @@ void step5() {
   // Renewable is a mixin because Book and Dvd share this behaviour
   // without requiring every LibraryItem to support renewals.
 }
+
 // STEP 6: Enhanced enums
 void step6() {
   print('--- Step 6 ---');
@@ -349,13 +346,12 @@ void step6() {
 
   print('Step 6: member type = ${type.name} (index ${type.index})');
   print('Step 6: max loans = ${type.maxLoans}');
-  print(
-    'Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount',
-  );
+  print('Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount');
 
   // Enum values prevent invalid member categories that arbitrary
   // strings such as 'student' could introduce.
 }
+
 // STEP 7: Extension methods
 void step7() {
   print('--- Step 7 ---');
@@ -363,11 +359,7 @@ void step7() {
   MemberType type = MemberType.values[seed % 3];
   int discountedFee = type.applyDiscount(mainBook().lateFee(daysLate));
 
-  List<LibraryItem> shelf = [
-    mainBook(),
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> shelf = [mainBook(), mainMagazine(), mainDvd()];
 
   print('Step 7: ${discountedFee.rs}');
   print('Step 7: initials of "${titles[u]}" = ${titles[u].initials}');
