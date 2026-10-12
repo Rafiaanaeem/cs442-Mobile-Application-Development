@@ -363,7 +363,11 @@ void step7() {
   MemberType type = MemberType.values[seed % 3];
   int discountedFee = type.applyDiscount(mainBook().lateFee(daysLate));
 
-  List<LibraryItem> shelf = [mainBook(), mainMagazine(), mainDvd()];
+  List<LibraryItem> shelf = [
+    mainBook(),
+    mainMagazine(),
+    mainDvd(),
+  ];
 
   print('Step 7: ${discountedFee.rs}');
   print('Step 7: initials of "${titles[u]}" = ${titles[u].initials}');
@@ -372,8 +376,8 @@ void step7() {
     '${shelf.totalLateFee(daysLate).rs}',
   );
 
-  // Extensions provide convenient dot notation without modifying
-  // or subclassing int, String, or List.
+  // Extensions provide convenient, dot-notation behaviour without
+  // modifying or subclassing int, String, or List.
 }
 
 // STEP 8: Operators, equality and hashCode
