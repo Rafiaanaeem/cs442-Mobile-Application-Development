@@ -16,7 +16,7 @@ When I press the **+** or **Reset** button, the value of the counter changes, bu
 
 ## Overview
 
-This project is a console-based **Course Roster Manager** developed in Dart as part of Lab 2 for the Mobile Application Development course.
+This project is a console-based **Course Roster Manager** developed in Dart as part of Lab 2 .
 
 The lab focuses on the fundamental concepts of Dart, including syntax, data types, null safety, operators, control flow, loops, and collection literals.
 
