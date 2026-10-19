@@ -8,8 +8,8 @@ const String rollNo = '04072313032';
 
 // ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
 final int seed = int.parse(rollNo.substring(rollNo.length - 2));
-final int t = seed ~/ 10; // tens digit
-final int u = seed % 10; // units digit
+final int t = seed ~/ 10;
+final int u = seed % 10;
 
 const List<String> courses = [
   'Mobile Dev',
@@ -32,11 +32,8 @@ final int startSeconds = 5 + (t + u) % 6;
 final int bugStep = 1 + u % 4;
 // ===========================================================================
 
-// Step 9 writes to this list from initState and dispose.
 final List<String> lifecycleLog = <String>[];
 
-// runApp receives the root widget (LabApp).
-// MaterialApp's home specifies the page displayed at startup (HomePage).
 void main() => runApp(const LabApp());
 
 // Stateless: configures the overall application.
@@ -62,8 +59,44 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Study Tracker: $course'),
       ),
-      body: const Center(
-        child: Text('Hello'),
+      body: StudentCard(
+        name: studentName,
+        roll: rollNo,
+        course: course,
+      ),
+    );
+  }
+}
+
+// Think: StatelessWidget fields are final because the widget configuration
+// is immutable. Removing final allows reassignment, but does not by itself
+// make the widget stateful; immutability is part of the intended design.
+// Stateless: displays the student details supplied through final fields.
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String roll;
+  final String course;
+
+  const StudentCard({
+    super.key,
+    required this.name,
+    required this.roll,
+    required this.course,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $name', key: const Key('student-name')),
+            Text('Roll no: $roll', key: const Key('student-roll')),
+            Text('Course: $course', key: const Key('student-course')),
+          ],
+        ),
       ),
     );
   }
