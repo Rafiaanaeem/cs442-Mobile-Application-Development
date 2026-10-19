@@ -73,6 +73,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Tally(),
+            const SizedBox(height: 16),
+            const BuggyCounter(),
           ],
         ),
       ),
@@ -138,8 +140,7 @@ class Tally extends StatefulWidget {
 }
 
 class _TallyState extends State<Tally> {
-  // Think: Tally is the widget configuration; _TallyState stores the changing
-  // count. Keeping the count in State lets Flutter preserve it between rebuilds.
+  // Think: State stores the changing count between widget rebuilds.
   int _count = startCount;
 
   void _plus() {
@@ -195,7 +196,7 @@ class _TallyState extends State<Tally> {
   }
 }
 
-// Stateful: provided for Step 7; intentionally contains a bug.
+// Stateful: demonstrates how setState updates changing data on screen.
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
@@ -215,7 +216,9 @@ class _BuggyCounterState extends State<BuggyCounter> {
         ElevatedButton(
           key: const Key('bug-button'),
           onPressed: () {
-            _clicks += bugStep;
+            setState(() {
+              _clicks += bugStep;
+            });
           },
           child: Text('+$bugStep'),
         ),
