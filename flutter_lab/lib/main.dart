@@ -55,6 +55,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Think: LabApp -> MaterialApp -> HomePage -> Scaffold ->
+    // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
+    // That is 8 widget levels when LabApp is counted as level 1.
     return Scaffold(
       appBar: AppBar(
         title: Text('Study Tracker: $course'),
@@ -79,7 +82,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            GoalBanner(count: startCount, max: maxCount),
+            const Tally(),
           ],
         ),
       ),
@@ -129,10 +132,6 @@ class GoalBanner extends StatelessWidget {
     required this.max,
   });
 
-  // Think: GoalBanner does not need setState because it receives count and max
-// from its parent. To show a new count, the parent must rebuild GoalBanner
-// with the updated count.
-
   @override
   Widget build(BuildContext context) {
     final percent = count * 100 ~/ max;
@@ -140,6 +139,44 @@ class GoalBanner extends StatelessWidget {
     return Text(
       'Progress: $count of $max ($percent%)',
       key: const Key('progress'),
+    );
+  }
+}
+
+// Stateful: manages a counter whose value can change.
+class Tally extends StatefulWidget {
+  const Tally({super.key});
+
+  @override
+  State<Tally> createState() => _TallyState();
+}
+
+class _TallyState extends State<Tally> {
+
+  // Think: Tally is the widget configuration; _TallyState stores the changing
+// count. Keeping the count in State lets Flutter preserve it between rebuilds.
+
+  int _count = startCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Count: $_count', key: const Key('count')),
+        const SizedBox(height: 8),
+        GoalBanner(count: _count, max: maxCount),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          key: const Key('plus'),
+          onPressed: () {
+            setState(() {
+              _count += stepSize;
+            });
+          },
+          child: Text('+$stepSize'),
+        ),
+      ],
     );
   }
 }
