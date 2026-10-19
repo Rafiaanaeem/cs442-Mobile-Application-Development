@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -41,7 +42,10 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Study Tracker', home: HomePage());
+    return const MaterialApp(
+      title: 'Study Tracker',
+      home: HomePage(),
+    );
   }
 }
 
@@ -49,19 +53,22 @@ class LabApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // Think: LabApp -> MaterialApp -> HomePage -> Scaffold ->
-  // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
-  // That is 8 widget levels when LabApp is counted as level 1.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Study Tracker: $course')),
+      appBar: AppBar(
+        title: Text('Study Tracker: $course'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            StudentCard(name: studentName, roll: rollNo, course: course),
+            StudentCard(
+              name: studentName,
+              roll: rollNo,
+              course: course,
+            ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,6 +78,8 @@ class HomePage extends StatelessWidget {
                 Text('Max: $maxCount', key: const Key('info-max')),
               ],
             ),
+            const SizedBox(height: 12),
+            GoalBanner(count: startCount, max: maxCount),
           ],
         ),
       ),
@@ -78,7 +87,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// Stateless: displays the student details supplied through final fields.
+// Stateless: displays student details supplied through final fields.
 class StudentCard extends StatelessWidget {
   final String name;
   final String roll;
@@ -105,6 +114,32 @@ class StudentCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// Stateless: calculates progress from the count and maximum it receives.
+class GoalBanner extends StatelessWidget {
+  final int count;
+  final int max;
+
+  const GoalBanner({
+    super.key,
+    required this.count,
+    required this.max,
+  });
+
+  // Think: GoalBanner does not need setState because it receives count and max
+// from its parent. To show a new count, the parent must rebuild GoalBanner
+// with the updated count.
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = count * 100 ~/ max;
+
+    return Text(
+      'Progress: $count of $max ($percent%)',
+      key: const Key('progress'),
     );
   }
 }
