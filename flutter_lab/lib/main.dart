@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-// Personalized lab settings: roll number 04072313032.
+//  roll number 04072313032.
 const String studentName = 'Rafia Naeem';
 const String rollNumber = '04072313032';
 const String course = 'Operating Systems';
