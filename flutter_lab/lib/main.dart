@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -41,7 +42,10 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Study Tracker', home: HomePage());
+    return const MaterialApp(
+      title: 'Study Tracker',
+      home: HomePage(),
+    );
   }
 }
 
@@ -55,13 +59,19 @@ class HomePage extends StatelessWidget {
     // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
     // That is 8 widget levels when LabApp is counted as level 1.
     return Scaffold(
-      appBar: AppBar(title: Text('Study Tracker: $course')),
+      appBar: AppBar(
+        title: Text('Study Tracker: $course'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            StudentCard(name: studentName, roll: rollNo, course: course),
+            StudentCard(
+              name: studentName,
+              roll: rollNo,
+              course: course,
+            ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,6 +83,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Tally(),
+            const SizedBox(height: 16),
+            const Countdown(),
             const SizedBox(height: 16),
             const BuggyCounter(),
           ],
@@ -118,7 +130,11 @@ class GoalBanner extends StatelessWidget {
   final int count;
   final int max;
 
-  const GoalBanner({super.key, required this.count, required this.max});
+  const GoalBanner({
+    super.key,
+    required this.count,
+    required this.max,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +212,58 @@ class _TallyState extends State<Tally> {
   }
 }
 
-// Stateful: demonstrates how setState updates changing data on screen.
+// Stateful: runs a countdown and cancels its timer when disposed.
+class Countdown extends StatefulWidget {
+  const Countdown({super.key});
+
+  @override
+  State<Countdown> createState() => _CountdownState();
+}
+
+class _CountdownState extends State<Countdown> {
+  late int _left;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _left = startSeconds;
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _left--;
+      });
+
+      if (_left <= 0) {
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_left > 0) {
+      return Text(
+        'Time left: $_left s',
+        key: const Key('time-left'),
+      );
+    }
+
+    return const Text(
+      'Time is up!',
+      key: Key('time-left'),
+    );
+  }
+}
+
+// Stateful: updates the displayed value using setState.
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
