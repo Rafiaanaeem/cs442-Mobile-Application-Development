@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -19,25 +20,22 @@ void main() {
   runApp(const LabApp());
 }
 
-// StatelessWidget: provides the app's fixed theme and home screen.
+// Stateless
+// Provides the application and its home screen.
 class LabApp extends StatelessWidget {
   const LabApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Study Tracker',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
 
-// StatelessWidget: arranges the lab widgets in the required order.
+// Stateless
+// Arranges the lab widgets in the required order.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -53,46 +51,23 @@ class HomePage extends StatelessWidget {
             children: [
               const StudentCard(),
               const SizedBox(height: 16),
-
-              // Course and roll information.
               const Row(
                 children: [
-                  Expanded(
-                    child: Text('Course: Operating Systems', softWrap: true),
-                  ),
+                  Expanded(child: Text('Course: $course')),
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Roll: 04072313032',
+                      'Roll: $rollNumber',
                       textAlign: TextAlign.end,
-                      softWrap: true,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-
-              const Text(
-                'Study Goal',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               const Tally(),
-              const SizedBox(height: 24),
-
-              const Text(
-                'Countdown',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               const Countdown(),
-              const SizedBox(height: 24),
-
-              const Text(
-                'Buggy Counter — Fixed',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               const BuggyCounter(),
             ],
           ),
@@ -102,7 +77,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// StatelessWidget: displays fixed student information.
+// Stateless
+// Displays the student's fixed information.
 class StudentCard extends StatelessWidget {
   const StudentCard({super.key});
 
@@ -114,8 +90,7 @@ class StudentCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(studentName, style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 4),
+            Text(studentName),
             const Text('Roll Number: $rollNumber'),
             const Text('BS Computer Science'),
           ],
@@ -125,12 +100,17 @@ class StudentCard extends StatelessWidget {
   }
 }
 
-// StatelessWidget: displays the goal progress supplied by its parent.
+// Stateless
+// Displays progress using values supplied by Tally.
 class GoalBanner extends StatelessWidget {
   final int count;
   final int goal;
 
-  const GoalBanner({super.key, required this.count, required this.goal});
+  const GoalBanner({
+    super.key,
+    required this.count,
+    required this.goal,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -140,14 +120,16 @@ class GoalBanner extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Progress: $percentage%'),
-        const SizedBox(height: 8),
-        LinearProgressIndicator(value: (count / goal).clamp(0.0, 1.0)),
+        LinearProgressIndicator(
+          value: (count / goal).clamp(0.0, 1.0).toDouble(),
+        ),
       ],
     );
   }
 }
 
-// StatefulWidget: stores and updates the study count when buttons are tapped.
+// Stateful
+// Manages the study count and responds to button taps.
 class Tally extends StatefulWidget {
   const Tally({super.key});
 
@@ -160,13 +142,13 @@ class _TallyState extends State<Tally> {
 
   void _increase() {
     setState(() {
-      _count = (_count + stepSize).clamp(0, maxCount);
+      _count = (_count + stepSize).clamp(0, maxCount).toInt();
     });
   }
 
   void _decrease() {
     setState(() {
-      _count = (_count - stepSize).clamp(0, maxCount);
+      _count = (_count - stepSize).clamp(0, maxCount).toInt();
     });
   }
 
@@ -184,13 +166,10 @@ class _TallyState extends State<Tally> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Study count: $_count / $maxCount',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 12),
+            Text('Study count: $_count / $maxCount'),
+            const SizedBox(height: 8),
             GoalBanner(count: _count, goal: maxCount),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -203,7 +182,10 @@ class _TallyState extends State<Tally> {
                   onPressed: _decrease,
                   child: const Text('Subtract $stepSize'),
                 ),
-                TextButton(onPressed: _reset, child: const Text('Reset')),
+                TextButton(
+                  onPressed: _reset,
+                  child: const Text('Reset'),
+                ),
               ],
             ),
           ],
@@ -213,7 +195,8 @@ class _TallyState extends State<Tally> {
   }
 }
 
-// StatefulWidget: updates the countdown every second and counts builds.
+// Stateful
+// Updates the countdown and counts its build calls.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -223,7 +206,7 @@ class Countdown extends StatefulWidget {
 
 class _CountdownState extends State<Countdown> {
   late int _left;
-  Timer? _timer;
+  late Timer _timer;
   int _builds = 0;
 
   @override
@@ -248,7 +231,7 @@ class _CountdownState extends State<Countdown> {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     lifecycleLog.add('dispose');
     debugPrint('Countdown lifecycle: $lifecycleLog');
     super.dispose();
@@ -277,7 +260,8 @@ class _CountdownState extends State<Countdown> {
   }
 }
 
-// StatefulWidget: demonstrates that changing state must call setState.
+// Stateful
+// Demonstrates updating the click count using setState().
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
