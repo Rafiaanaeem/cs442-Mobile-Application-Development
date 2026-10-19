@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -42,10 +41,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Study Tracker',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Study Tracker', home: HomePage());
   }
 }
 
@@ -53,24 +49,35 @@ class LabApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  // Think: LabApp -> MaterialApp -> HomePage -> Scaffold ->
+  // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
+  // That is 8 widget levels when LabApp is counted as level 1.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Tracker: $course'),
-      ),
-      body: StudentCard(
-        name: studentName,
-        roll: rollNo,
-        course: course,
+      appBar: AppBar(title: Text('Study Tracker: $course')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StudentCard(name: studentName, roll: rollNo, course: course),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Start: $startCount', key: const Key('info-start')),
+                Text('Step: $stepSize', key: const Key('info-step')),
+                Text('Max: $maxCount', key: const Key('info-max')),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// Think: StatelessWidget fields are final because the widget configuration
-// is immutable. Removing final allows reassignment, but does not by itself
-// make the widget stateful; immutability is part of the intended design.
 // Stateless: displays the student details supplied through final fields.
 class StudentCard extends StatelessWidget {
   final String name;
