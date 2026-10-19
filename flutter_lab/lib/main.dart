@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -42,10 +41,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Study Tracker',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Study Tracker', home: HomePage());
   }
 }
 
@@ -59,19 +55,13 @@ class HomePage extends StatelessWidget {
     // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
     // That is 8 widget levels when LabApp is counted as level 1.
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Tracker: $course'),
-      ),
+      appBar: AppBar(title: Text('Study Tracker: $course')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            StudentCard(
-              name: studentName,
-              roll: rollNo,
-              course: course,
-            ),
+            StudentCard(name: studentName, roll: rollNo, course: course),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,11 +116,7 @@ class GoalBanner extends StatelessWidget {
   final int count;
   final int max;
 
-  const GoalBanner({
-    super.key,
-    required this.count,
-    required this.max,
-  });
+  const GoalBanner({super.key, required this.count, required this.max});
 
   @override
   Widget build(BuildContext context) {
@@ -152,11 +138,27 @@ class Tally extends StatefulWidget {
 }
 
 class _TallyState extends State<Tally> {
-
   // Think: Tally is the widget configuration; _TallyState stores the changing
-// count. Keeping the count in State lets Flutter preserve it between rebuilds.
-
+  // count. Keeping the count in State lets Flutter preserve it between rebuilds.
   int _count = startCount;
+
+  void _plus() {
+    setState(() {
+      _count = (_count + stepSize).clamp(0, maxCount);
+    });
+  }
+
+  void _minus() {
+    setState(() {
+      _count = (_count - stepSize).clamp(0, maxCount);
+    });
+  }
+
+  void _reset() {
+    setState(() {
+      _count = startCount;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,14 +169,26 @@ class _TallyState extends State<Tally> {
         const SizedBox(height: 8),
         GoalBanner(count: _count, max: maxCount),
         const SizedBox(height: 8),
-        ElevatedButton(
-          key: const Key('plus'),
-          onPressed: () {
-            setState(() {
-              _count += stepSize;
-            });
-          },
-          child: Text('+$stepSize'),
+        Row(
+          children: [
+            ElevatedButton(
+              key: const Key('plus'),
+              onPressed: _plus,
+              child: Text('+$stepSize'),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton(
+              key: const Key('minus'),
+              onPressed: _minus,
+              child: Text('-$stepSize'),
+            ),
+            const SizedBox(width: 8),
+            OutlinedButton(
+              key: const Key('reset'),
+              onPressed: _reset,
+              child: const Text('Reset'),
+            ),
+          ],
         ),
       ],
     );
