@@ -1,111 +1,110 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+// Personalized lab settings: roll number 04072313032.
 const String studentName = 'Rafia Naeem';
-const String rollNo = '04072313032';
+const String rollNumber = '04072313032';
+const String course = 'Operating Systems';
 
-// ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
-final int seed = int.parse(rollNo.substring(rollNo.length - 2));
-final int t = seed ~/ 10;
-final int u = seed % 10;
-
-const List<String> courses = [
-  'Mobile Dev',
-  'Data Structures',
-  'Operating Systems',
-  'Databases',
-  'Networks',
-  'Software Eng',
-  'AI',
-  'Web Engineering',
-  'Graphics',
-  'Security',
-];
-
-final String course = courses[u];
-final int startCount = 3 + u;
-final int stepSize = 1 + t % 4;
-final int maxCount = 20 + 2 * t;
-final int startSeconds = 5 + (t + u) % 6;
-final int bugStep = 1 + u % 4;
-// ===========================================================================
+const int startCount = 5;
+const int stepSize = 4;
+const int maxCount = 26;
+const int startSeconds = 10;
+const int bugStep = 3;
 
 final List<String> lifecycleLog = <String>[];
 
-void main() => runApp(const LabApp());
+void main() {
+  runApp(const LabApp());
+}
 
-// Stateless: configures the overall application.
+// StatelessWidget: provides the app's fixed theme and home screen.
 class LabApp extends StatelessWidget {
   const LabApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Study Tracker',
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
     );
   }
 }
 
-// Stateless: displays the page without managing changing state.
+// StatelessWidget: arranges the lab widgets in the required order.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Think: LabApp -> MaterialApp -> HomePage -> Scaffold ->
-    // SingleChildScrollView -> Column -> Row -> Text('Max: ...').
-    // That is 8 widget levels when LabApp is counted as level 1.
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Study Tracker: $course'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            StudentCard(
-              name: studentName,
-              roll: rollNo,
-              course: course,
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Start: $startCount', key: const Key('info-start')),
-                Text('Step: $stepSize', key: const Key('info-step')),
-                Text('Max: $maxCount', key: const Key('info-max')),
-              ],
-            ),
-            const SizedBox(height: 12),
-            const Tally(),
-            const SizedBox(height: 16),
-            const Countdown(),
-            const SizedBox(height: 16),
-            const BuggyCounter(),
-          ],
+      appBar: AppBar(title: const Text('Study Tracker')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const StudentCard(),
+              const SizedBox(height: 16),
+
+              // Course and roll information.
+              const Row(
+                children: [
+                  Expanded(
+                    child: Text('Course: Operating Systems', softWrap: true),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Roll: 04072313032',
+                      textAlign: TextAlign.end,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              const Text(
+                'Study Goal',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Tally(),
+              const SizedBox(height: 24),
+
+              const Text(
+                'Countdown',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Countdown(),
+              const SizedBox(height: 24),
+
+              const Text(
+                'Buggy Counter — Fixed',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const BuggyCounter(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// Stateless: displays student details supplied through final fields.
+// StatelessWidget: displays fixed student information.
 class StudentCard extends StatelessWidget {
-  final String name;
-  final String roll;
-  final String course;
-
-  const StudentCard({
-    super.key,
-    required this.name,
-    required this.roll,
-    required this.course,
-  });
+  const StudentCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +114,10 @@ class StudentCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Name: $name', key: const Key('student-name')),
-            Text('Roll no: $roll', key: const Key('student-roll')),
-            Text('Course: $course', key: const Key('student-course')),
+            Text(studentName, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 4),
+            const Text('Roll Number: $rollNumber'),
+            const Text('BS Computer Science'),
           ],
         ),
       ),
@@ -125,29 +125,29 @@ class StudentCard extends StatelessWidget {
   }
 }
 
-// Stateless: calculates progress from the count and maximum it receives.
+// StatelessWidget: displays the goal progress supplied by its parent.
 class GoalBanner extends StatelessWidget {
   final int count;
-  final int max;
+  final int goal;
 
-  const GoalBanner({
-    super.key,
-    required this.count,
-    required this.max,
-  });
+  const GoalBanner({super.key, required this.count, required this.goal});
 
   @override
   Widget build(BuildContext context) {
-    final percent = count * 100 ~/ max;
+    final int percentage = count * 100 ~/ goal;
 
-    return Text(
-      'Progress: $count of $max ($percent%)',
-      key: const Key('progress'),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Progress: $percentage%'),
+        const SizedBox(height: 8),
+        LinearProgressIndicator(value: (count / goal).clamp(0.0, 1.0)),
+      ],
     );
   }
 }
 
-// Stateful: manages a counter whose value can change.
+// StatefulWidget: stores and updates the study count when buttons are tapped.
 class Tally extends StatefulWidget {
   const Tally({super.key});
 
@@ -156,16 +156,15 @@ class Tally extends StatefulWidget {
 }
 
 class _TallyState extends State<Tally> {
-  // Think: State stores the changing count between widget rebuilds.
   int _count = startCount;
 
-  void _plus() {
+  void _increase() {
     setState(() {
       _count = (_count + stepSize).clamp(0, maxCount);
     });
   }
 
-  void _minus() {
+  void _decrease() {
     setState(() {
       _count = (_count - stepSize).clamp(0, maxCount);
     });
@@ -179,40 +178,42 @@ class _TallyState extends State<Tally> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Count: $_count', key: const Key('count')),
-        const SizedBox(height: 8),
-        GoalBanner(count: _count, max: maxCount),
-        const SizedBox(height: 8),
-        Row(
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-              key: const Key('plus'),
-              onPressed: _plus,
-              child: Text('+$stepSize'),
+            Text(
+              'Study count: $_count / $maxCount',
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              key: const Key('minus'),
-              onPressed: _minus,
-              child: Text('-$stepSize'),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton(
-              key: const Key('reset'),
-              onPressed: _reset,
-              child: const Text('Reset'),
+            const SizedBox(height: 12),
+            GoalBanner(count: _count, goal: maxCount),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ElevatedButton(
+                  onPressed: _increase,
+                  child: const Text('Add $stepSize'),
+                ),
+                OutlinedButton(
+                  onPressed: _decrease,
+                  child: const Text('Subtract $stepSize'),
+                ),
+                TextButton(onPressed: _reset, child: const Text('Reset')),
+              ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
 
-// Stateful: runs a countdown and cancels its timer when disposed.
+// StatefulWidget: updates the countdown every second and counts builds.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -222,48 +223,61 @@ class Countdown extends StatefulWidget {
 
 class _CountdownState extends State<Countdown> {
   late int _left;
-  late Timer _timer;
+  Timer? _timer;
+  int _builds = 0;
 
   @override
   void initState() {
     super.initState();
-
+    lifecycleLog.add('initState');
     _left = startSeconds;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _left--;
-      });
-
-      if (_left <= 0) {
+      if (_left <= 1) {
         timer.cancel();
+        setState(() {
+          _left = 0;
+        });
+      } else {
+        setState(() {
+          _left--;
+        });
       }
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
+    lifecycleLog.add('dispose');
+    debugPrint('Countdown lifecycle: $lifecycleLog');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_left > 0) {
-      return Text(
-        'Time left: $_left s',
-        key: const Key('time-left'),
-      );
-    }
+    _builds++;
 
-    return const Text(
-      'Time is up!',
-      key: Key('time-left'),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _left > 0 ? 'Time left: $_left s' : 'Time is up!',
+              key: const Key('time-left'),
+            ),
+            const SizedBox(height: 8),
+            Text('Builds: $_builds', key: const Key('builds')),
+          ],
+        ),
+      ),
     );
   }
 }
 
-// Stateful: updates the displayed value using setState.
+// StatefulWidget: demonstrates that changing state must call setState.
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
@@ -274,22 +288,29 @@ class BuggyCounter extends StatefulWidget {
 class _BuggyCounterState extends State<BuggyCounter> {
   int _clicks = 0;
 
+  void _increment() {
+    setState(() {
+      _clicks += bugStep;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text('Bug clicks: $_clicks', key: const Key('bug-text')),
-        const SizedBox(width: 12),
-        ElevatedButton(
-          key: const Key('bug-button'),
-          onPressed: () {
-            setState(() {
-              _clicks += bugStep;
-            });
-          },
-          child: Text('+$bugStep'),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Clicks: $_clicks', key: const Key('clicks')),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: _increment,
+              child: const Text('Increment'),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
