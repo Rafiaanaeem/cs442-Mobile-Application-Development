@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -92,7 +93,10 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Team Board', home: HomePage());
+    return const MaterialApp(
+      title: 'Team Board',
+      home: HomePage(),
+    );
   }
 }
 
@@ -110,8 +114,17 @@ class HomePage extends StatelessWidget {
           children: [
             const SettingsCard(),
             const SizedBox(height: 12),
+            const Welcome(),
+            const SizedBox(height: 12),
             const Clock(),
             const SizedBox(height: 12),
+            Row(
+              children: [
+                Tile(tileA),
+                Tile(tileB),
+                Tile(tileC),
+              ],
+            ),
           ],
         ),
       ),
@@ -139,7 +152,7 @@ class SettingsCard extends StatelessWidget {
   }
 }
 
-// Steps 1-3: Clock with timer, lifecycle logging, and Probe.
+// Steps 1-2: Clock with timer and lifecycle logging.
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -190,8 +203,14 @@ class _ClockState extends State<Clock> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Session: $_seconds s', key: const Key('clock')),
-        Text('Builds: $_builds', key: const Key('builds')),
+        Text(
+          'Session: $_seconds s',
+          key: const Key('clock'),
+        ),
+        Text(
+          'Builds: $_builds',
+          key: const Key('builds'),
+        ),
         Probe(seconds: _seconds),
       ],
     );
@@ -212,7 +231,10 @@ class Probe extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Seen at: $seconds s', key: const Key('probe-seen')),
+        Text(
+          'Seen at: $seconds s',
+          key: const Key('probe-seen'),
+        ),
         Text(
           'Widget #${identityHashCode(this)}',
           key: const Key('probe-widget'),
@@ -225,8 +247,50 @@ class Probe extends StatelessWidget {
           'Context belongs to: ${context.widget.runtimeType}',
           key: const Key('probe-context'),
         ),
-        Text('Scaffold above me: $above', key: const Key('probe-above')),
+        Text(
+          'Scaffold above me: $above',
+          key: const Key('probe-above'),
+        ),
       ],
+    );
+  }
+}
+
+// Step 4: Welcome message.
+class Welcome extends StatelessWidget {
+  const Welcome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Welcome, $studentName',
+        key: const Key('welcome'),
+      ),
+    );
+  }
+}
+
+// Step 4: A button with its own tap counter.
+class Tile extends StatefulWidget {
+  const Tile(this.label, {super.key});
+
+  final String label;
+
+  @override
+  State<Tile> createState() => _TileState();
+}
+
+class _TileState extends State<Tile> {
+  int taps = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    // Think: composing small widgets keeps each component responsible
+    // for its own job and makes the interface easier to maintain.
+    return ElevatedButton(
+      onPressed: () => setState(() => taps++),
+      child: Text('${widget.label}: $taps'),
     );
   }
 }
