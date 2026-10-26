@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -93,10 +92,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Team Board',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Team Board', home: HomePage());
   }
 }
 
@@ -127,6 +123,8 @@ class HomePage extends StatelessWidget {
             const ShareRow(),
             const SizedBox(height: 12),
             const InfoBox(),
+            const SizedBox(height: 12),
+            const StampStack(),
           ],
         ),
       ),
@@ -201,14 +199,8 @@ class _ClockState extends State<Clock> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Session: $_seconds s',
-          key: const Key('clock'),
-        ),
-        Text(
-          'Builds: $_builds',
-          key: const Key('builds'),
-        ),
+        Text('Session: $_seconds s', key: const Key('clock')),
+        Text('Builds: $_builds', key: const Key('builds')),
         // Do not make Probe const: it must be recreated to show the new Widget ID.
         Probe(seconds: _seconds),
       ],
@@ -232,10 +224,7 @@ class Probe extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Seen at: $seconds s',
-          key: const Key('probe-seen'),
-        ),
+        Text('Seen at: $seconds s', key: const Key('probe-seen')),
         Text(
           'Widget #${identityHashCode(this)}',
           key: const Key('probe-widget'),
@@ -248,10 +237,7 @@ class Probe extends StatelessWidget {
           'Context belongs to: ${context.widget.runtimeType}',
           key: const Key('probe-context'),
         ),
-        Text(
-          'Scaffold above me: $above',
-          key: const Key('probe-above'),
-        ),
+        Text('Scaffold above me: $above', key: const Key('probe-above')),
       ],
     );
   }
@@ -266,10 +252,7 @@ class Welcome extends StatelessWidget {
     // Think: Composition combines existing widgets instead of subclassing
     // a built-in widget such as Text or ElevatedButton.
     return Center(
-      child: Text(
-        'Welcome, $studentName',
-        key: const Key('welcome'),
-      ),
+      child: Text('Welcome, $studentName', key: const Key('welcome')),
     );
   }
 }
@@ -347,18 +330,9 @@ class InfoPanel extends StatelessWidget {
           key: const Key('info-row'),
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              'Start: $startSec s',
-              key: const Key('row-a'),
-            ),
-            Text(
-              'Tick: $tick s',
-              key: const Key('row-b'),
-            ),
-            Text(
-              'Stop: $stopAt s',
-              key: const Key('row-c'),
-            ),
+            Text('Start: $startSec s', key: const Key('row-a')),
+            Text('Tick: $tick s', key: const Key('row-b')),
+            Text('Stop: $stopAt s', key: const Key('row-c')),
           ],
         ),
         const SizedBox(height: 12),
@@ -366,18 +340,9 @@ class InfoPanel extends StatelessWidget {
           key: const Key('info-col'),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Name: $studentName',
-              key: const Key('col-a'),
-            ),
-            Text(
-              'Roll no: $rollNo',
-              key: const Key('col-b'),
-            ),
-            Text(
-              'Course: $course',
-              key: const Key('col-c'),
-            ),
+            Text('Name: $studentName', key: const Key('col-a')),
+            Text('Roll no: $rollNo', key: const Key('col-b')),
+            Text('Course: $course', key: const Key('col-c')),
           ],
         ),
       ],
@@ -433,10 +398,7 @@ class ShareRow extends StatelessWidget {
         SizedBox(
           key: const Key('fixed'),
           width: fixedW,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('F'),
-          ),
+          child: ElevatedButton(onPressed: () {}, child: const Text('F')),
         ),
         Expanded(
           flex: flexA,
@@ -478,10 +440,50 @@ class InfoBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(boxRadius),
         border: Border.all(width: boxBorder),
       ),
-      child: Text(
-        'Course: $course',
-        key: const Key('box-text'),
-      ),
+      child: Text('Course: $course', key: const Key('box-text')),
+    );
+  }
+}
+
+// Step 10: Stack layers widgets on top of each other.
+// The first child is the bottom layer. Positioned places icons
+// relative to the edges of the Stack.
+class StampStack extends StatelessWidget {
+  const StampStack({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    // Think: The Stack's size is determined by its constraints and
+// its non-positioned child, which is the 300 x 120 grey Container.
+
+// Think: If the grey Container came last, it would paint over
+// the icons because later Stack children are painted on top.
+    return Stack(
+      key: const Key('stack'),
+      children: [
+        // Bottom layer: the grey rectangular base.
+        Container(
+          key: const Key('layer-base'),
+          width: 300,
+          height: 120,
+          color: Colors.grey.shade300,
+        ),
+
+        // Place the star from the top and right edges.
+        Positioned(
+          top: dotTop,
+          right: dotRight,
+          child: const Icon(Icons.star, key: Key('dot-top')),
+        ),
+
+        // Place the circle from the bottom and left edges.
+        Positioned(
+          bottom: dotBottom,
+          left: dotLeft,
+          child: const Icon(Icons.circle, key: Key('dot-bottom')),
+        ),
+      ],
     );
   }
 }
