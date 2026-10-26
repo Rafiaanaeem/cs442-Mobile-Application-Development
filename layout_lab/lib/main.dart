@@ -92,10 +92,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Team Board',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Team Board', home: HomePage());
   }
 }
 
@@ -142,7 +139,7 @@ class SettingsCard extends StatelessWidget {
   }
 }
 
-// Step 1-2: Clock with timer and lifecycle logging.
+// Steps 1-3: Clock with timer, lifecycle logging, and Probe.
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -193,14 +190,42 @@ class _ClockState extends State<Clock> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text('Session: $_seconds s', key: const Key('clock')),
+        Text('Builds: $_builds', key: const Key('builds')),
+        Probe(seconds: _seconds),
+      ],
+    );
+  }
+}
+
+// Step 3: Explore widget identity, BuildContext, and ancestors.
+class Probe extends StatelessWidget {
+  const Probe({super.key, required this.seconds});
+
+  final int seconds;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool above =
+        context.findAncestorWidgetOfExactType<Scaffold>() != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Seen at: $seconds s', key: const Key('probe-seen')),
         Text(
-          'Session: $_seconds s',
-          key: const Key('clock'),
+          'Widget #${identityHashCode(this)}',
+          key: const Key('probe-widget'),
         ),
         Text(
-          'Builds: $_builds',
-          key: const Key('builds'),
+          'Element #${identityHashCode(context)}',
+          key: const Key('probe-element'),
         ),
+        Text(
+          'Context belongs to: ${context.widget.runtimeType}',
+          key: const Key('probe-context'),
+        ),
+        Text('Scaffold above me: $above', key: const Key('probe-above')),
       ],
     );
   }
