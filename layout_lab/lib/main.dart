@@ -142,7 +142,7 @@ class SettingsCard extends StatelessWidget {
   }
 }
 
-// Step 1: Clock
+// Step 1-2: Clock with timer and lifecycle logging.
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -153,27 +153,55 @@ class Clock extends StatefulWidget {
 class _ClockState extends State<Clock> {
   late Timer _timer;
   int _seconds = startSec;
+  int _builds = 0;
 
   @override
   void initState() {
     super.initState();
+    lifecycleLog.add('initState');
 
     // Think: initState runs once, so only one Timer is created.
     // Starting a Timer in build would create more timers on rebuilds
     // and make the clock run too quickly.
-
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() => _seconds += tick);
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
 
-      if (_seconds >= stopAt) timer.cancel();
+      setState(() {
+        _seconds += tick;
+      });
+
+      if (_seconds >= stopAt) {
+        timer.cancel();
+      }
     });
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    lifecycleLog.add('dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Text(
-      'Session: $_seconds s',
-      key: const Key('clock'),
+    _builds++;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Session: $_seconds s',
+          key: const Key('clock'),
+        ),
+        Text(
+          'Builds: $_builds',
+          key: const Key('builds'),
+        ),
+      ],
     );
   }
 }
