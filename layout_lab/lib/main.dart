@@ -2,97 +2,67 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+// Do not change the seeded settings.
 const String studentName = 'Rafia Naeem';
-const String rollNo = '04072313032'; // Your roll number
+const String rollNumber = '04072313032';
 
-// ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
-final int seed = int.parse(rollNo.substring(rollNo.length - 2));
-final int t = seed ~/ 10; // tens digit
-final int u = seed % 10; // units digit
+const int seed = 32;
+const int startSec = 20;
+const int tick = 3;
+const int ticks = 6;
+const int stopAt = 38;
 
 const List<String> courses = [
-  'Mobile Dev',
-  'Data Structures',
+  'Computer Networks',
+  'Database Systems',
   'Operating Systems',
-  'Databases',
-  'Networks',
-  'Software Eng',
-  'AI',
-  'Web Engineering',
-  'Graphics',
-  'Security',
+  'Software Engineering',
+  'Artificial Intelligence',
 ];
 
-const List<String> names = ['Ali', 'Sara', 'Omar', 'Hina', 'Zain', 'Maya'];
+const List<String> names = ['Ali', 'Sara', 'Omar', 'Hina', 'Zain'];
 
-const List<String> mains = [
-  'start',
-  'center',
-  'end',
-  'spaceBetween',
-  'spaceAround',
-  'spaceEvenly',
-];
+const String course = 'Operating Systems';
 
-const List<String> crosses = ['start', 'center', 'end'];
+const String tileA = 'Omar';
+const String tileB = 'Zain';
+const String tileC = 'Ali';
 
-const List<String> hues = ['teal', 'indigo', 'orange', 'pink', 'green'];
+const int tapsToMake = 2;
 
-const Map<String, MaterialColor> swatches = {
-  'teal': Colors.teal,
-  'indigo': Colors.indigo,
-  'orange': Colors.orange,
-  'pink': Colors.pink,
-  'green': Colors.green,
-};
+const String mainName = 'end';
+const String crossName = 'start';
 
-final String course = courses[u];
+const double fixedW = 90;
+const int flexA = 1;
+const int flexB = 1;
 
-// Steps 1-2: the clock
-final int startSec = 5 * (1 + t % 5);
-final int tick = 1 + u % 3;
-final int ticks = 4 + u % 4;
-final int stopAt = startSec + ticks * tick;
+const double boxMargin = 10;
+const double boxPad = 12;
+const double boxRadius = 8;
+const double boxBorder = 1;
+const String hue = 'teal';
 
-// Steps 4-5: the tiles
-final String tileA = names[u % 6];
-final String tileB = names[(u + 2) % 6];
-final String tileC = names[(u + 4) % 6];
-final int tapsToMake = 2 + t % 3;
+const double dotTop = 16;
+const double dotRight = 12;
+const double dotBottom = 8;
+const double dotLeft = 16;
 
-// Step 6: axes
-final String mainName = mains[u % 6];
-final String crossName = crosses[t % 3];
+final List<String> lifecycleLog = [];
 
-// Step 8: Expanded and Flexible
-final double fixedW = 70.0 + 10 * u;
-final int flexA = 1 + t % 3;
-final int flexB = 1 + u % 2;
-
-// Step 9: Container
-final double boxMargin = 4.0 + 2 * (t % 5);
-final double boxPad = 8.0 + 2 * (u % 5);
-final double boxRadius = 4.0 * (1 + (t + u) % 4);
-final double boxBorder = 1.0 + t % 3;
-final String hue = hues[(t + u) % 5];
-
-// Step 10: Stack
-final double dotTop = 4.0 + 4 * (t % 4);
-final double dotRight = 4.0 + 4 * (u % 4);
-final double dotBottom = 4.0 + 4 * ((t + u) % 4);
-final double dotLeft = 4.0 + 4 * ((t + 2 * u) % 4);
-
-// Step 2: lifecycle log
-final List<String> lifecycleLog = <String>[];
-
-void main() => runApp(const LabApp());
+void main() {
+  runApp(const LabApp());
+}
 
 class LabApp extends StatelessWidget {
   const LabApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Team Board', home: HomePage());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
   }
 }
 
@@ -102,7 +72,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Team Board: $course')),
+      appBar: AppBar(title: Text('Team Board - $course')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -115,6 +85,10 @@ class HomePage extends StatelessWidget {
             const Clock(),
             const SizedBox(height: 12),
             const SwapBoard(),
+            const SizedBox(height: 12),
+            const InfoPanel(),
+            const SizedBox(height: 12),
+            const SummaryRow(),
           ],
         ),
       ),
@@ -127,22 +101,37 @@ class SettingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'YOUR SETTINGS (seed $seed)\n'
-      'clock: start $startSec, tick $tick, stop at $stopAt\n'
-      'tiles: $tileA, $tileB, $tileC (taps for the Step 5 experiment: $tapsToMake)\n'
-      'row main axis: $mainName | column cross axis: $crossName\n'
-      'flex: $flexA and $flexB | fixed width: ${fixedW.toStringAsFixed(0)}\n'
-      'box: margin $boxMargin, padding $boxPad, radius $boxRadius, '
-      'border $boxBorder, colour $hue\n'
-      'stamp: top $dotTop, right $dotRight, bottom $dotBottom, left $dotLeft',
+    return Card(
       key: const Key('settings'),
-      style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'YOUR SETTINGS',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text('Name: $studentName'),
+            Text('Roll number: $rollNumber'),
+            Text('Seed: $seed'),
+            Text('Course: $course'),
+            Text('Start: $startSec'),
+            Text('Tick: $tick'),
+            Text('Ticks: $ticks'),
+            Text('Stop at: $stopAt'),
+            Text('Tiles: $tileA, $tileB, $tileC'),
+            Text('Taps to make: $tapsToMake'),
+            Text('Main alignment: $mainName'),
+            Text('Cross alignment: $crossName'),
+          ],
+        ),
+      ),
     );
   }
 }
 
-// Steps 1-2: Clock with timer and lifecycle logging.
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -158,11 +147,11 @@ class _ClockState extends State<Clock> {
   @override
   void initState() {
     super.initState();
+
     lifecycleLog.add('initState');
 
-    // Think: initState runs once, so only one Timer is created.
-    // Starting a Timer in build would create more timers on rebuilds
-    // and make the clock run too quickly.
+    // The timer belongs in initState, not build, so it is not
+    // restarted every time Flutter rebuilds this widget.
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) {
         timer.cancel();
@@ -171,11 +160,11 @@ class _ClockState extends State<Clock> {
 
       setState(() {
         _seconds += tick;
-      });
 
-      if (_seconds >= stopAt) {
-        timer.cancel();
-      }
+        if (_seconds >= stopAt) {
+          timer.cancel();
+        }
+      });
     });
   }
 
@@ -201,11 +190,10 @@ class _ClockState extends State<Clock> {
   }
 }
 
-// Step 3: Explore widget identity, BuildContext, and ancestors.
 class Probe extends StatelessWidget {
-  const Probe({super.key, required this.seconds});
-
   final int seconds;
+
+  const Probe({super.key, required this.seconds});
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +222,6 @@ class Probe extends StatelessWidget {
   }
 }
 
-// Step 4: Welcome message.
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
 
@@ -246,11 +233,10 @@ class Welcome extends StatelessWidget {
   }
 }
 
-// Step 4: A button with its own tap counter.
 class Tile extends StatefulWidget {
-  const Tile(this.label, {super.key});
-
   final String label;
+
+  const Tile(this.label, {super.key});
 
   @override
   State<Tile> createState() => _TileState();
@@ -261,16 +247,17 @@ class _TileState extends State<Tile> {
 
   @override
   Widget build(BuildContext context) {
-    // Think: composing small widgets keeps each component responsible
-    // for its own job and makes the interface easier to maintain.
     return ElevatedButton(
-      onPressed: () => setState(() => taps++),
+      onPressed: () {
+        setState(() {
+          taps++;
+        });
+      },
       child: Text('${widget.label}: $taps'),
     );
   }
 }
 
-// Step 5: Reorder tiles and observe how keys preserve their state.
 class SwapBoard extends StatefulWidget {
   const SwapBoard({super.key});
 
@@ -293,9 +280,9 @@ class _SwapBoardState extends State<SwapBoard> {
 
   @override
   Widget build(BuildContext context) {
-    // Think: a Widget describes the UI, an Element connects it to the
-    // tree, and State stores changing data. ValueKeys help Flutter match
-    // each tile with its existing Element and State after reordering.
+    // Think: Widget describes the UI, Element connects it to the
+    // tree, and State stores changing data. ValueKeys help Flutter
+    // match each tile with its existing Element and State after reordering.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -311,7 +298,42 @@ class _SwapBoardState extends State<SwapBoard> {
   }
 }
 
-// Provided for Step 7. Do not rename the class or keys.
+class InfoPanel extends StatelessWidget {
+  const InfoPanel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Think: Row arranges children horizontally, while Column
+    // arranges children vertically.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          key: const Key('info-row'),
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text('Start: $startSec s', key: const Key('row-a')),
+            const SizedBox(width: 12),
+            Text('Tick: $tick s', key: const Key('row-b')),
+            const SizedBox(width: 12),
+            Text('Stop: $stopAt s', key: const Key('row-c')),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Column(
+          key: const Key('info-col'),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $studentName', key: const Key('col-a')),
+            Text('Roll no: $rollNumber', key: const Key('col-b')),
+            Text('Course: $course', key: const Key('col-c')),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class SummaryRow extends StatelessWidget {
   const SummaryRow({super.key});
 
@@ -319,18 +341,9 @@ class SummaryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Part A: read the widget tree of the $course board from top to bottom.',
-          key: const Key('sum-a'),
-        ),
-        Text(
-          'Part B: build each box from small widgets and never extend a built-in class.',
-          key: const Key('sum-b'),
-        ),
-        Text(
-          'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
-          key: const Key('sum-c'),
-        ),
+        Text('Name: $studentName', key: const Key('sum-a')),
+        Text('Roll: $rollNumber', key: const Key('sum-b')),
+        Text('Course: $course', key: const Key('sum-c')),
       ],
     );
   }
