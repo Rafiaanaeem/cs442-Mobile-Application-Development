@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -93,10 +92,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Team Board',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Team Board', home: HomePage());
   }
 }
 
@@ -118,13 +114,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             const Clock(),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Tile(tileA),
-                Tile(tileB),
-                Tile(tileC),
-              ],
-            ),
+            const SwapBoard(),
           ],
         ),
       ),
@@ -203,14 +193,8 @@ class _ClockState extends State<Clock> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Session: $_seconds s',
-          key: const Key('clock'),
-        ),
-        Text(
-          'Builds: $_builds',
-          key: const Key('builds'),
-        ),
+        Text('Session: $_seconds s', key: const Key('clock')),
+        Text('Builds: $_builds', key: const Key('builds')),
         Probe(seconds: _seconds),
       ],
     );
@@ -231,10 +215,7 @@ class Probe extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Seen at: $seconds s',
-          key: const Key('probe-seen'),
-        ),
+        Text('Seen at: $seconds s', key: const Key('probe-seen')),
         Text(
           'Widget #${identityHashCode(this)}',
           key: const Key('probe-widget'),
@@ -247,10 +228,7 @@ class Probe extends StatelessWidget {
           'Context belongs to: ${context.widget.runtimeType}',
           key: const Key('probe-context'),
         ),
-        Text(
-          'Scaffold above me: $above',
-          key: const Key('probe-above'),
-        ),
+        Text('Scaffold above me: $above', key: const Key('probe-above')),
       ],
     );
   }
@@ -263,10 +241,7 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'Welcome, $studentName',
-        key: const Key('welcome'),
-      ),
+      child: Text('Welcome, $studentName', key: const Key('welcome')),
     );
   }
 }
@@ -291,6 +266,47 @@ class _TileState extends State<Tile> {
     return ElevatedButton(
       onPressed: () => setState(() => taps++),
       child: Text('${widget.label}: $taps'),
+    );
+  }
+}
+
+// Step 5: Reorder tiles and observe how keys preserve their state.
+class SwapBoard extends StatefulWidget {
+  const SwapBoard({super.key});
+
+  @override
+  State<SwapBoard> createState() => _SwapBoardState();
+}
+
+class _SwapBoardState extends State<SwapBoard> {
+  var tiles = [
+    Tile(tileA, key: ValueKey(tileA)),
+    Tile(tileB, key: ValueKey(tileB)),
+    Tile(tileC, key: ValueKey(tileC)),
+  ];
+
+  void swap() {
+    setState(() {
+      tiles = tiles.reversed.toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Think: a Widget describes the UI, an Element connects it to the
+    // tree, and State stores changing data. ValueKeys help Flutter match
+    // each tile with its existing Element and State after reordering.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: tiles),
+        const SizedBox(height: 12),
+        ElevatedButton(
+          key: const Key('swap'),
+          onPressed: swap,
+          child: const Text('Swap'),
+        ),
+      ],
     );
   }
 }
