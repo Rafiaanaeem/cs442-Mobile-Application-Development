@@ -1,167 +1,242 @@
-# Lab: From Hand-Drawn Sketches to Working Screens
+# Fitness and Habit Tracker
 
-CS 442 Mobile Application Development, Fall 2026. Capstone: **Fitness and Habit Tracker**.
+A Flutter mobile application designed to help users build healthy routines by tracking workouts, daily habits, step goals, and progress over time.
 
-The screens of the capstone app, rebuilt the way the lab asks: they look right, they are connected by navigation, and every number on them comes from fake, hard-coded data in [`lib/data/sample_data.dart`](lib/data/sample_data.dart). Firebase, the step sensor, notifications and the wger REST API plug into these screens in the coming labs (see the [feature map](#feature-map)).
+The app brings the user's main fitness activities together in one place: log a workout, review activity history, maintain daily habits, and monitor progress through weekly and monthly summaries.
 
-**Level reached: Gold.** All twelve capstone screens (S01 to S12) plus Welcome and the success, empty and error screens, with all four stretch goals.
+> **Health disclaimer:** This application is intended for general fitness and habit tracking only. It does not provide medical advice, diagnosis, or treatment. Users should choose activities appropriate for their abilities and consult a qualified professional when they need health guidance.
 
-> For fitness tracking and motivation only. This app does not provide medical advice.
+## Team Members
 
-## Run it
+- Rafia Naeem
+- Kabeer Khan
+- Muzaffar
 
-```bash
-cd lab_sketch_to_screens
-flutter pub get
-flutter run -d edge
-```
+## Main Features
 
-`-d chrome` or an Android phone works too. On Account access, any email and a password of six or more characters opens the app. Nothing is sent anywhere.
+- **Account access:** Sign-in and account-related screens.
+- **Home dashboard:** At-a-glance view of daily steps, habits, workout activity, and weekly summary.
+- **Workout tracking:** Start a workout or record a past workout.
+- **Workout history:** Review previously recorded workouts.
+- **Exercise catalogue:** Browse and search exercises.
+- **Exercise details:** View information about a selected exercise.
+- **Habit tracking:** Add habits and mark daily habits as complete.
+- **Progress tracking:** Review workout and habit progress over weekly and monthly periods.
+- **Profile and settings:** Manage profile details, goals, reminders, theme, and preferences.
+- **Weekly summary:** Review a summary of activity and consistency.
 
-Check that every screen opens, fits a phone and is connected:
+## Technology and Planned Integrations
 
-```bash
-flutter analyze
-flutter test
-```
-
-## What the lab asked for, and where it is
-
-| Lab step | Done in |
+| Technology / Package | Purpose |
 |---|---|
-| Step 0: structure, theme, routes | `lib/main.dart`, `lib/app/theme.dart`, `lib/app/router.dart` (GoRouter, one `GoRoute` per screen, all in one file), `lib/data/sample_data.dart` |
-| Step 1: shared widgets | `AppCard` and `PrimaryButton` from the handout (with a few optional extras), and four widgets of my choice: `SectionTitle`, `ImagePlaceholder`, `InfoRow`, `StatusView` |
-| Step 2: template trick, one screen per file | 14 files in `lib/presentation/screens/` (the three result screens share one file), each built from the LIST, FORM, DETAIL or centred-column template (table below) |
-| Step 3: connect and check | Every screen is reachable by tapping and has a way back. `flutter test` opens every route at 320 px wide, at 1.3x text size, in the dark theme and in a 1280 px browser window, and fails on any overflow stripe |
-| Step 4: README | This file: screenshots, sketch slots and the feature map |
-| Stretch: dark theme | `appDarkTheme` in `lib/app/theme.dart`; follows the phone, or pick Light/Dark in Settings > Theme |
-| Stretch: bottom NavigationBar | `lib/presentation/widgets/app_shell.dart` with `StatefulShellRoute` for Home, Workouts, Habits, Progress |
-| Stretch: Hero animation | The exercise icon flies from the catalogue card (or grid tile) to the picture on Exercise detail |
-| Stretch: GridView | Exercise catalogue has a list/grid switch (the icon next to "Exercise catalogue") |
+| Flutter | Cross-platform mobile application UI |
+| Dart | Application programming language |
+| wger REST API | Exercise catalogue and exercise information |
+| Device activity / step sensor | Step-count tracking, subject to device support and permission |
+| Notifications | Daily goal and habit reminders |
+| Local database (planned) | Store workout logs, habits, and user preferences |
+| Firebase Authentication (planned) | Account authentication and sign-in |
 
-Rules from the handout that the code follows: no image files (icons and coloured boxes only), no fixed pixel widths or heights for layout (`Expanded`, `Padding`, `ListView`, `AspectRatio` instead), and the same items in the same order as the capstone screens.
-
-## Folder structure
-
-```
-lib/
-  main.dart                       MaterialApp.router, light + dark theme
-  app/
-    theme.dart                    seed colour, light and dark ThemeData
-    router.dart                   every route, one GoRoute per screen
-    format.dart                   small text helpers (6,300 / "Yesterday" / 19:00)
-  data/
-    sample_data.dart              fake data: profile, exercises, workouts, habits, steps
-  presentation/
-    widgets/
-      app_card.dart               AppCard (shared widget 1)
-      primary_button.dart         PrimaryButton (shared widget 2) + SecondaryButton
-      section_title.dart          SectionTitle (shared widget 3)
-      image_placeholder.dart      ImagePlaceholder
-      info_row.dart               InfoRow
-      status_view.dart            StatusView (big icon, message, button)
-      disclaimer_text.dart        the health disclaimer
-      step_bar_chart.dart         steps chart made of plain widgets
-      app_shell.dart              bottom NavigationBar, Settings button, snack and confirm helpers
-    screens/                      one file per screen (table below)
-test/
-  app_test.dart                   opens every route, checks overflow, taps through the main flows
-  screenshots_test.dart           makes the pictures in docs/screenshots/
-docs/
-  screenshots/                    one picture per screen
-  sketches/                       photos of the hand-drawn sketches go here
-```
+> Integrations marked as **planned** are feature-map targets and should not be considered complete until they are connected and tested in the app.
 
 ## Screens
 
-Put a photo of each hand-drawn sketch in [`docs/sketches/`](docs/sketches/) with the file name shown in the table (for example `docs/sketches/03_home.jpg`); the Sketch column picks it up.
+The following section places the current app screenshot beside the corresponding hand-drawn sketch reference. The sketch photos are the original design references; some photos contain more than one sketched screen.
 
-| # | Screen | Template | Route | File | Sketch | Screen |
-|---|---|---|---|---|---|---|
-| 01 | Welcome | Centred column | `/` | `welcome_screen.dart` | <img src="docs/sketches/01_welcome.jpg" width="180" alt="sketch 01_welcome.jpg"> | <img src="docs/screenshots/01_welcome.png" width="180"> |
-| 02 | S01 Account access | FORM | `/login` | `login_screen.dart` | <img src="docs/sketches/02_account_access.jpg" width="180" alt="sketch 02_account_access.jpg"> | <img src="docs/screenshots/02_account_access.png" width="180"> |
-| 03 | S02 Home | LIST | `/home` | `home_screen.dart` | <img src="docs/sketches/03_home.jpg" width="180" alt="sketch 03_home.jpg"> | <img src="docs/screenshots/03_home.png" width="180"> |
-| 04 | S03 Workout history | LIST | `/workouts` | `workout_history_screen.dart` | <img src="docs/sketches/04_workout_history.jpg" width="180" alt="sketch 04_workout_history.jpg"> | <img src="docs/screenshots/04_workout_history.png" width="180"> |
-| 05 | S04 Workout log | FORM | `/workouts/log` | `workout_log_screen.dart` | <img src="docs/sketches/05_workout_log.jpg" width="180" alt="sketch 05_workout_log.jpg"> | <img src="docs/screenshots/05_workout_log.png" width="180"> |
-| 06 | S05 Exercise catalogue | SEARCH (TextField + LIST) | `/exercises` | `exercise_catalogue_screen.dart` | <img src="docs/sketches/06_exercise_catalogue.jpg" width="180" alt="sketch 06_exercise_catalogue.jpg"> | <img src="docs/screenshots/06_exercise_catalogue.png" width="180"> |
-| 07 | S06 Exercise detail | DETAIL | `/exercises/:id` | `exercise_detail_screen.dart` | <img src="docs/sketches/07_exercise_detail.jpg" width="180" alt="sketch 07_exercise_detail.jpg"> | <img src="docs/screenshots/07_exercise_detail.png" width="180"> |
-| 08 | S07 Habits | LIST | `/habits` | `habits_screen.dart` | <img src="docs/sketches/08_habits.jpg" width="180" alt="sketch 08_habits.jpg"> | <img src="docs/screenshots/08_habits.png" width="180"> |
-| 09 | S08 Habit editor | FORM | `/habits/edit` | `habit_editor_screen.dart` | <img src="docs/sketches/09_habit_editor.jpg" width="180" alt="sketch 09_habit_editor.jpg"> | <img src="docs/screenshots/09_habit_editor.png" width="180"> |
-| 10 | S09 Steps and daily goal | DETAIL | `/steps` | `steps_screen.dart` | <img src="docs/sketches/10_steps.jpg" width="180" alt="sketch 10_steps.jpg"> | <img src="docs/screenshots/10_steps.png" width="180"> |
-| 11 | S10 Progress | LIST | `/progress` | `progress_screen.dart` | <img src="docs/sketches/11_progress.jpg" width="180" alt="sketch 11_progress.jpg"> | <img src="docs/screenshots/11_progress.png" width="180"> |
-| 12 | S11 Weekly summary | DETAIL | `/summary` | `weekly_summary_screen.dart` | <img src="docs/sketches/12_weekly_summary.jpg" width="180" alt="sketch 12_weekly_summary.jpg"> | <img src="docs/screenshots/12_weekly_summary.png" width="180"> |
-| 13 | S12 Settings and profile | LIST of tiles + avatar | `/settings` | `settings_screen.dart` | <img src="docs/sketches/13_settings.jpg" width="180" alt="sketch 13_settings.jpg"> | <img src="docs/screenshots/13_settings.png" width="180"> |
-| 14 | Success | Centred column | `/result/success` | `result_screen.dart` | <img src="docs/sketches/14_result_success.jpg" width="180" alt="sketch 14_result_success.jpg"> | <img src="docs/screenshots/14_result_success.png" width="180"> |
-| 15 | Empty | Centred column | `/result/empty` | `result_screen.dart` | <img src="docs/sketches/15_result_empty.jpg" width="180" alt="sketch 15_result_empty.jpg"> | <img src="docs/screenshots/15_result_empty.png" width="180"> |
-| 16 | Error | Centred column | `/result/error` | `result_screen.dart` | <img src="docs/sketches/16_result_error.jpg" width="180" alt="sketch 16_result_error.jpg"> | <img src="docs/screenshots/16_result_error.png" width="180"> |
+### 1. Home Dashboard
 
-Dark theme (stretch goal):
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/home_dashboard.png" alt="Home dashboard screenshot" width="260"> | <img src="assets/home_dashboard_sketch.jpg" alt="Hand-drawn home dashboard sketch" width="260"> |
 
-<img src="docs/screenshots/17_home_dark.png" width="180">
+The dashboard gives users a quick overview of their daily steps, habit completion, workout activity, and weekly summary.
 
-### How the screens connect
+### 2. Workouts and History
 
-```
-Welcome ── Get started / I already have an account ──> Account access ── Sign in ──> Home
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/workouts_history.png" alt="Workouts and history screenshot" width="260"> | <img src="assets/workout_history_sketch.jpg" alt="Hand-drawn workout history sketch" width="260"> |
 
-Bottom bar: Home | Workouts | Habits | Progress          (gear icon on each tab -> Settings)
+Users can start a workout, log a past workout, and review previous activity.
 
-Home ──> Steps & goal, Habits tab, Workouts tab, Workout log (live or past), Weekly summary
-Workouts ──> Workout log (start, log past, or tap a workout to edit), Exercise catalogue (search icon), Settings
-Workout log ── Add exercise ──> Exercise catalogue ──> Exercise detail ── Add to workout ──> back to the log
-Workout log ── Finish and save ──> Success ──> Workouts
-Habits ──> Habit editor (Add habit, or Edit on any habit)
-Progress ──> Steps & goal, Workouts tab, Habits tab, Weekly summary
-Settings ──> Steps & goal, Success / Empty / Error previews, Sign out (-> Welcome)
-```
+### 3. Workout Log
 
-Every screen opened on top of a tab has a back arrow; the result screens have a button that leads on.
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/workout_log.png" alt="Workout log screenshot" width="260"> | <img src="assets/workout_log_sketch.jpg" alt="Hand-drawn workout log sketch" width="260"> |
 
-## Sample data
+The workout log screen is used to enter workout information, exercises, duration, and related activity details.
 
-Everything is in [`lib/data/sample_data.dart`](lib/data/sample_data.dart):
+### 4. Habits
 
-- **Profile:** name, email, 8,000-step goal, 3 workouts a week, a 19:00 reminder.
-- **Exercises:** 20 exercises in 7 categories (Chest, Back, Legs, Shoulders, Arms, Abs, Cardio) with equipment, muscles and a short description, shaped like wger's data.
-- **Workouts:** 10 past sessions over three weeks (strength sessions with sets, reps and kg, and timed activities), plus the unsaved live draft shown by "Start workout".
-- **Habits:** 6 habits with weekday schedules, streaks and reminder times, a week of ticks, and the 6 fitness templates of the habit editor.
-- **Steps:** 24 days of step counts, with a few days not tracked.
-- **Summaries:** weekly and monthly totals are added up from the lists above, so Home, Progress and the Weekly summary agree with each other. Dates are relative to today, so the data never looks old.
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/habits.png" alt="Habits screen screenshot" width="260"> | <img src="assets/exercise_details_and_habits_sketch.jpg" alt="Hand-drawn exercise details and habits sketches" width="260"> |
 
-## Feature map
+Users can view their habits, add a habit, and mark habits as completed for the day.
 
-Which later feature goes on which screen.
+### 5. Progress
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/progress.png" alt="Progress screen screenshot" width="260"> | <img src="assets/progress_sketch.jpg" alt="Hand-drawn progress screen sketch" width="260"> |
+
+The progress screen presents activity information and supports reviewing progress over different time periods.
+
+### 6. Profile and Settings
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/settings_profile.png" alt="Settings and profile screenshot" width="260"> | <img src="assets/profile_and_weekly_summary_sketch.jpg" alt="Hand-drawn profile and weekly summary sketches" width="260"> |
+
+Users can manage profile information, workout and step goals, reminders, theme, and preferences.
+
+### 7. Save Confirmation State
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/save_confirmation.png" alt="Save confirmation screenshot" width="260"> | No separate hand-drawn sketch for this confirmation state was included in the uploaded set. |
+
+This is a confirmation state shown after information has been saved.
+
+### 8. Empty Workouts State
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/empty_workouts_state.png" alt="Empty workouts state screenshot" width="260"> | No separate hand-drawn sketch for this empty state was included in the uploaded set. |
+
+This state guides the user when no workout records are available yet.
+
+### 9. Workout Error State
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/workout_error_state.png" alt="Workout error state screenshot" width="260"> | No separate hand-drawn sketch for this error state was included in the uploaded set. |
+
+This state communicates that workout information could not be loaded and provides a retry action.
+
+### 10. Theme Selection
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/theme_selection.png" alt="Theme selection screenshot" width="260"> | <img src="assets/weekly_summary_sketch.jpg" alt="Hand-drawn weekly summary sketch" width="260"> |
+
+The theme selection dialog lets users choose the application's appearance. The weekly-summary sketch is included as the remaining original design reference and is not an exact wireframe for this dialog.
+
+### Additional Original Sketches
+
+These hand-drawn screens were also present in the uploaded sketch photos, but a matching standalone app screenshot was not included in the screenshot set. Add the corresponding screenshot beside each sketch when that screen is implemented.
+
+| Hand-drawn sketch | Screen |
+|---|---|
+| <img src="assets/account_access_sketch.jpg" alt="Account access sketch" width="260"> | Account Access |
+| <img src="assets/exercise_catalogue_sketch.jpg" alt="Exercise catalogue sketch" width="260"> | Exercise Catalogue |
+| <img src="assets/search_and_add_exercise_sketch.jpg" alt="Search and add exercise sketch" width="260"> | Search / Add Exercise |
+| <img src="assets/weekly_summary_sketch.jpg" alt="Weekly summary sketch" width="260"> | Weekly Summary |
+| <img src="assets/exercise_details_and_habits_sketch.jpg" alt="Exercise details and habits sketch" width="260"> | Contains the Exercise Details and Habits wireframes |
+
+## Feature Map
+
+The feature map identifies which future integration belongs to each screen and the planned implementation stage.
 
 | Screen | Feature that plugs in | When |
 |---|---|---|
-| Welcome | Skip to Home when a user is already signed in (`FirebaseAuth.authStateChanges`) | Next week (Firebase) |
-| Account access | Firebase Auth email and password, password reset email | Next week (Firebase) |
-| Home | Live totals from Cloud Firestore; today's steps from the step sensor | Firebase, then hardware session |
-| Workout history | Workouts collection in Cloud Firestore, offline cache, "Pending sync" flag | Firebase |
-| Workout log | Save and edit in Firestore; the draft survives closing the app (`shared_preferences`) | Firebase, local storage |
-| Exercise catalogue | wger REST API (`http`): search, equipment and category filters, paging, offline cache | Already learnt (REST), wire in |
-| Exercise detail | wger exercise images (`Image.network`), "View source" with `url_launcher` | REST |
-| Habits | Habit ticks and streaks stored in Firestore | Firebase |
-| Habit editor | Reminder notifications (`flutter_local_notifications`, `timezone`) | Hardware session |
-| Steps and daily goal | Step counter (`pedometer`), activity permission (`permission_handler`), accelerometer fallback (`sensors_plus`) | Hardware session |
-| Progress | Real charts (`fl_chart`) from saved step days, workouts and habit ticks | After Firebase |
-| Weekly summary | Totals calculated from saved records, covered by unit tests | Testing lab |
-| Settings and profile | Profile in Firestore, notification permission, sign out, delete account and data | Firebase, hardware session |
-| Success / Empty / Error | Shown after real Firestore writes and failed API calls | Firebase, REST |
-| Whole app | Widget and integration tests, signed release build | Testing and release labs |
+| Account Access | Firebase Authentication, Google Sign-In, account validation, password-reset flow | Next week |
+| Home Dashboard | Step-count sensor, daily goal progress, dashboard data, weekly summary data | Hardware session / database integration |
+| Workouts and History | Local database for workout records; retrieve and display saved workout history | Already learned — wire into the screen |
+| Workout Log | Save workout date, duration, exercises, sets, and activity details to the local database | Database integration session |
+| Exercise Catalogue | wger REST API for exercise search, catalogue data, and filtering | REST API session |
+| Exercise Details | wger REST API for selected exercise information and instructions | REST API session |
+| Habits | Save habit records and completion status; daily reminder notifications | Database and notifications session |
+| Progress | Read workout and habit records and display weekly/monthly progress charts | Database and charts integration |
+| Profile and Settings | Save profile details, step goal, workout target, reminder settings, and theme preferences | Local storage / database session |
+| Weekly Summary | Calculate weekly workout totals, habit completion, step progress, and streak information | Database and charts integration |
+| Activity Permission | Request activity-recognition permission and show a graceful explanation/fallback if permission is denied | Hardware session |
 
-## Submit
+### Feature Map Notes
 
-```bash
-git add lab_sketch_to_screens
-git commit -m "lab-screens"
-git push
+- The wger API is intended for exercise catalogue and exercise-detail information.
+- Step tracking depends on device hardware, operating-system support, and user permission.
+- If activity permission is denied, the app should remain usable and explain that automatic step tracking is unavailable.
+- Notifications are intended for reminders and daily goals; users should be able to control reminder preferences.
+- The app should not make medical claims or present tracked values as medical measurements.
+
+## Project Setup
+
+### Prerequisites
+
+- Flutter SDK installed
+- Dart SDK (included with Flutter)
+- Android Studio or Visual Studio Code
+- An Android emulator or a physical Android device
+
+### Run the Application
+
+1. Clone or download this repository.
+2. Open the project folder in Visual Studio Code or Android Studio.
+3. Open a terminal in the project directory.
+4. Fetch the Flutter dependencies:
+
+   ```bash
+   flutter pub get
+   ```
+
+5. Check that a device or emulator is available:
+
+   ```bash
+   flutter devices
+   ```
+
+6. Run the application:
+
+   ```bash
+   flutter run
+   ```
+
+## Suggested Project Structure
+
+The exact folder structure may vary as the project develops. A typical Flutter structure is:
+
+```text
+fitness_habit_tracker/
+├── android/
+├── ios/
+├── lib/
+│   ├── main.dart
+│   ├── screens/
+│   ├── widgets/
+│   ├── models/
+│   └── services/
+├── assets/
+├── test/
+├── pubspec.yaml
+└── README.md
 ```
 
-Never commit keys or keystores.
+## Permissions and Privacy
 
-To refresh the screenshots after changing a screen:
+- Request activity or step-count permission only when the related feature is introduced.
+- Explain why the permission is needed before or during the permission request.
+- Handle denied permissions gracefully; core workout and habit screens should remain accessible.
+- Store only the information required for the app's features.
+- Allow users to manage reminder preferences.
 
-```bash
-flutter test --update-goldens --dart-define=SCREENSHOTS=true test/screenshots_test.dart
-```
+## Current Scope
+
+The current project focuses on the app screens, visual design, and navigation between screens. Some integrations in the feature map are planned for later development sessions. Their presence in this README describes the intended implementation, not a claim that every integration is already complete.
+
+## Future Improvements
+
+- Complete authentication and account recovery.
+- Connect the exercise catalogue to the wger REST API.
+- Persist workout and habit records.
+- Integrate device step counting with permission handling.
+- Add configurable daily reminders.
+- Add progress charts and weekly summaries.
+- Test navigation, empty states, error states, and permission-denied behavior.
+
+---
+
+**Project:** Fitness and Habit Tracker  
+**Course:** Mobile Application Development (CS 442)  
+**Semester:** Fall 2026
