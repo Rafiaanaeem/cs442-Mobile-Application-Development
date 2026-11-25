@@ -25,19 +25,7 @@ The app brings the user's main fitness activities together in one place: log a w
 - **Profile and settings:** Manage profile details, goals, reminders, theme, and preferences.
 - **Weekly summary:** Review a summary of activity and consistency.
 
-## Technology and Planned Integrations
 
-| Technology / Package | Purpose |
-|---|---|
-| Flutter | Cross-platform mobile application UI |
-| Dart | Application programming language |
-| wger REST API | Exercise catalogue and exercise information |
-| Device activity / step sensor | Step-count tracking, subject to device support and permission |
-| Notifications | Daily goal and habit reminders |
-| Local database (planned) | Store workout logs, habits, and user preferences |
-| Firebase Authentication (planned) | Account authentication and sign-in |
-
-> Integrations marked as **planned** are feature-map targets and should not be considered complete until they are connected and tested in the app.
 
 ## Screens
 
@@ -147,81 +135,9 @@ The feature map identifies which future integration belongs to each screen and t
 - Notifications are intended for reminders and daily goals; users should be able to control reminder preferences.
 - The app should not make medical claims or present tracked values as medical measurements.
 
-## Project Setup
 
-### Prerequisites
 
-- Flutter SDK installed
-- Dart SDK (included with Flutter)
-- Android Studio or Visual Studio Code
-- An Android emulator or a physical Android device
 
-### Run the Application
-
-1. Clone or download this repository.
-2. Open the project folder in Visual Studio Code or Android Studio.
-3. Open a terminal in the project directory.
-4. Fetch the Flutter dependencies:
-
-   ```bash
-   flutter pub get
-   ```
-
-5. Check that a device or emulator is available:
-
-   ```bash
-   flutter devices
-   ```
-
-6. Run the application:
-
-   ```bash
-   flutter run
-   ```
-
-## Suggested Project Structure
-
-The exact folder structure may vary as the project develops. A typical Flutter structure is:
-
-```text
-fitness_habit_tracker/
-├── android/
-├── ios/
-├── lib/
-│   ├── main.dart
-│   ├── screens/
-│   ├── widgets/
-│   ├── models/
-│   └── services/
-├── assets/
-├── test/
-├── pubspec.yaml
-└── README.md
-```
-
-## Permissions and Privacy
-
-- Request activity or step-count permission only when the related feature is introduced.
-- Explain why the permission is needed before or during the permission request.
-- Handle denied permissions gracefully; core workout and habit screens should remain accessible.
-- Store only the information required for the app's features.
-- Allow users to manage reminder preferences.
-
-## Current Scope
-
-The current project focuses on the app screens, visual design, and navigation between screens. Some integrations in the feature map are planned for later development sessions. Their presence in this README describes the intended implementation, not a claim that every integration is already complete.
-
-## Future Improvements
-
-- Complete authentication and account recovery.
-- Connect the exercise catalogue to the wger REST API.
-- Persist workout and habit records.
-- Integrate device step counting with permission handling.
-- Add configurable daily reminders.
-- Add progress charts and weekly summaries.
-- Test navigation, empty states, error states, and permission-denied behavior.
-
----
 
 **Project:** Fitness and Habit Tracker  
 **Course:** Mobile Application Development (CS 442)  
