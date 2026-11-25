@@ -41,99 +41,85 @@ The app brings the user's main fitness activities together in one place: log a w
 
 ## Screens
 
-The following section places the current app screenshot beside the corresponding hand-drawn sketch reference. The sketch photos are the original design references; some photos contain more than one sketched screen.
+The following section places each current app screenshot beside its corresponding original hand-drawn notebook sketch. Some notebook photographs contain multiple screen designs and are reused where appropriate.
 
-### 1. Home Dashboard
-
-| App screenshot | Original sketch |
-|---|---|
-| <img src="assets/home_dashboard.png" alt="Home dashboard screenshot" width="260"> | <img src="assets/home_dashboard_sketch.jpg" alt="Hand-drawn home dashboard sketch" width="260"> |
-
-The dashboard gives users a quick overview of their daily steps, habit completion, workout activity, and weekly summary.
-
-### 2. Workouts and History
+### 1. Account Access
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/workouts_history.png" alt="Workouts and history screenshot" width="260"> | <img src="assets/workout_history_sketch.jpg" alt="Hand-drawn workout history sketch" width="260"> |
+| <img src="assets/1.png" alt="Account access app screenshot" width="260"> | <img src="assets/screen1.jpeg" alt="Hand-drawn account access sketch" width="260"> |
 
-Users can start a workout, log a past workout, and review previous activity.
-
-### 3. Workout Log
+### 2. Home Dashboard
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/workout_log.png" alt="Workout log screenshot" width="260"> | <img src="assets/workout_log_sketch.jpg" alt="Hand-drawn workout log sketch" width="260"> |
+| <img src="assets/2.jpeg" alt="Home dashboard app screenshot" width="260"> | <img src="assets/screen2.jpeg" alt="Hand-drawn home dashboard sketch" width="260"> |
 
-The workout log screen is used to enter workout information, exercises, duration, and related activity details.
-
-### 4. Habits
+### 3. Workouts and History
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/habits.png" alt="Habits screen screenshot" width="260"> | <img src="assets/exercise_details_and_habits_sketch.jpg" alt="Hand-drawn exercise details and habits sketches" width="260"> |
+| <img src="assets/3.jpeg" alt="Workouts and history app screenshot" width="260"> | <img src="assets/screen3.jpeg" alt="Hand-drawn workouts and history sketch" width="260"> |
 
-Users can view their habits, add a habit, and mark habits as completed for the day.
-
-### 5. Progress
+### 4. Workout Log
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/progress.png" alt="Progress screen screenshot" width="260"> | <img src="assets/progress_sketch.jpg" alt="Hand-drawn progress screen sketch" width="260"> |
+| <img src="assets/4.jpeg" alt="Workout log app screenshot" width="260"> | <img src="assets/screen4.jpeg" alt="Hand-drawn workout log sketch" width="260"> |
 
-The progress screen presents activity information and supports reviewing progress over different time periods.
-
-### 6. Profile and Settings
+### 5. Exercise Catalogue
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/settings_profile.png" alt="Settings and profile screenshot" width="260"> | <img src="assets/profile_and_weekly_summary_sketch.jpg" alt="Hand-drawn profile and weekly summary sketches" width="260"> |
+| <img src="assets/5.png" alt="Exercise catalogue app screenshot" width="260"> | <img src="assets/screen 6 and 7.jpeg" alt="Hand-drawn exercise catalogue and exercise details sketches" width="260"> |
 
-Users can manage profile information, workout and step goals, reminders, theme, and preferences.
-
-### 7. Save Confirmation State
+### 6. Exercise Details
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/save_confirmation.png" alt="Save confirmation screenshot" width="260"> | No separate hand-drawn sketch for this confirmation state was included in the uploaded set. |
+| <img src="assets/6.png" alt="Exercise details app screenshot" width="260"> | <img src="assets/screen5.jpeg" alt="Hand-drawn exercise details and habits sketches" width="260"> |
 
-This is a confirmation state shown after information has been saved.
-
-### 8. Empty Workouts State
+### 7. Habits
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/empty_workouts_state.png" alt="Empty workouts state screenshot" width="260"> | No separate hand-drawn sketch for this empty state was included in the uploaded set. |
+| <img src="assets/7.jpeg" alt="Habits app screenshot" width="260"> | <img src="assets/screen5.jpeg" alt="Hand-drawn exercise details and habits sketches" width="260"> |
 
-This state guides the user when no workout records are available yet.
-
-### 9. Workout Error State
+### 8. Habit Editor
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/workout_error_state.png" alt="Workout error state screenshot" width="260"> | No separate hand-drawn sketch for this error state was included in the uploaded set. |
+| <img src="assets/8.png" alt="Habit editor app screenshot" width="260"> | <img src="assets/screen8 and 9.jpeg" alt="Hand-drawn habit editor and steps and goal sketches" width="260"> |
 
-This state communicates that workout information could not be loaded and provides a retry action.
-
-### 10. Theme Selection
+### 9. Steps and Goal
 
 | App screenshot | Original sketch |
 |---|---|
-| <img src="assets/theme_selection.png" alt="Theme selection screenshot" width="260"> | <img src="assets/weekly_summary_sketch.jpg" alt="Hand-drawn weekly summary sketch" width="260"> |
+| <img src="assets/9.png" alt="Steps and goal app screenshot" width="260"> | <img src="assets/screen8 and 9.jpeg" alt="Hand-drawn habit editor and steps and goal sketches" width="260"> |
 
-The theme selection dialog lets users choose the application's appearance. The weekly-summary sketch is included as the remaining original design reference and is not an exact wireframe for this dialog.
+### 10. Progress
 
-### Additional Original Sketches
-
-These hand-drawn screens were also present in the uploaded sketch photos, but a matching standalone app screenshot was not included in the screenshot set. Add the corresponding screenshot beside each sketch when that screen is implemented.
-
-| Hand-drawn sketch | Screen |
+| App screenshot | Original sketch |
 |---|---|
-| <img src="assets/account_access_sketch.jpg" alt="Account access sketch" width="260"> | Account Access |
-| <img src="assets/exercise_catalogue_sketch.jpg" alt="Exercise catalogue sketch" width="260"> | Exercise Catalogue |
-| <img src="assets/search_and_add_exercise_sketch.jpg" alt="Search and add exercise sketch" width="260"> | Search / Add Exercise |
-| <img src="assets/weekly_summary_sketch.jpg" alt="Weekly summary sketch" width="260"> | Weekly Summary |
-| <img src="assets/exercise_details_and_habits_sketch.jpg" alt="Exercise details and habits sketch" width="260"> | Contains the Exercise Details and Habits wireframes |
+| <img src="assets/10.jpeg" alt="Progress app screenshot" width="260"> | <img src="assets/screen11.jpeg" alt="Hand-drawn progress screen sketch" width="260"> |
+
+### 11. Weekly Summary
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/11.png" alt="Weekly summary app screenshot" width="260"> | <img src="assets/screen12.jpeg" alt="Hand-drawn weekly summary sketch" width="260"> |
+
+### 12. Profile and Settings
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/12.jpeg" alt="Profile and settings app screenshot" width="260"> | <img src="assets/screen10.jpeg" alt="Hand-drawn settings and profile sketch" width="260"> |
+
+### 13. Theme Selection
+
+| App screenshot | Original sketch |
+|---|---|
+| <img src="assets/theme.jpeg" alt="Theme selection app screenshot" width="260"> | No separate hand-drawn notebook sketch for theme selection was included in the uploaded assets. |
 
 ## Feature Map
 
